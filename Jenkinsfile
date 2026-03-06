@@ -29,7 +29,7 @@ pipeline {
         stage('Valid Inference Request') {
             steps {
                 sh '''
-                curl -X POST http://localhost:8000/predict \
+                curl -X POST http://wine-test:8000/predict \
                 -H "Content-Type: application/json" \
                 -d '{
                     "alcohol":10.5,
