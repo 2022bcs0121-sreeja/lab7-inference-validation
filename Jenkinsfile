@@ -22,7 +22,7 @@ pipeline {
 
         stage('Wait for API') {
             steps {
-                sh 'sleep 10'
+                sh 'sleep 25'
             }
         }
 
