@@ -16,8 +16,11 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                sh 'docker run -d -p 8000:8000 --name $CONTAINER $IMAGE'
-            }
+                sh '''
+                docker rm -f wine-test || true
+                docker run -d -p 8000:8000 --name wine-test 2022bcs0121sreeja/wine-quality-api
+                '''
+                }
         }
 
         stage('Wait for API') {
