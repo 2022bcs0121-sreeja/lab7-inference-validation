@@ -17,10 +17,10 @@ pipeline {
         stage('Run Container') {
             steps {
                 sh '''
-                docker rm -f wine-test || true
-                docker run -d -p 8000:8000 --name wine-test 2022bcs0121sreeja/wine-quality-api
+                docker rm -f $CONTAINER || true
+                docker run -d -p 8000:8000 --name $CONTAINER $IMAGE
                 '''
-                }
+            }
         }
 
         stage('Wait for API') {
@@ -51,7 +51,7 @@ pipeline {
         stage('Invalid Request') {
             steps {
                 sh '''
-                curl -X POST http://localhost:8000/predict \
+                curl -X POST http://host.docker.internal:8000/predict \
                 -H "Content-Type: application/json" \
                 -d '{"wrong":"data"}'
                 '''
@@ -61,11 +61,9 @@ pipeline {
         stage('Stop Container') {
             steps {
                 sh '''
-                docker stop $CONTAINER
-                docker rm $CONTAINER
+                docker rm -f $CONTAINER || true
                 '''
             }
         }
-
     }
 }
